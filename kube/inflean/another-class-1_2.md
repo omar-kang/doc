@@ -26,8 +26,8 @@
  - https://192.168.56.30:30000/#/login
  
 #### Pod 설명, 로그 보기
- - kubectl describe pod &gt;pod-name&lt; -n &gt;name-space&lt;
- - kubectl logs &gt;pod-name&lt; -n &gt;name-space&lt;
+ - kubectl describe pod &lt;pod-name&gt; -n &lt;name-space&gt;
+ - kubectl logs &lt;pod-name&gt; -n &lt;name-space&gt;
 
 
 
