@@ -44,7 +44,93 @@
  
 #### 쿠버네티스 대시보드에 App 배포 실습
  - https://cafe.naver.com/kubeops/31
- - dashboard 접속 > Namespace [default] > [+] 버튼 > [입력을 통해 생성] > yaml 파일 붙여넣기 > 업로드
+ 
+ 
+ - dashboard 접속 > Namespace [default] > [+] 버튼 > [입력을 통해 생성] > yaml 내용 붙여넣기 > 업로드
+    ```yaml
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: app-1-2-2-1
+    spec:
+      selector:
+        matchLabels:
+          app: '1.2.2.1'
+      replicas: 2
+      strategy:
+        type: RollingUpdate
+      template:
+        metadata:
+          labels:
+            app: '1.2.2.1'
+        spec:
+          containers:
+            - name: app-1-2-2-1
+              image: 1pro/app
+              imagePullPolicy: Always
+              ports:
+                - name: http
+                  containerPort: 8080
+              startupProbe:
+                httpGet:
+                  path: "/ready"
+                  port: http
+                failureThreshold: 1000
+              livenessProbe:
+                httpGet:
+                  path: "/ready"
+                  port: http
+              readinessProbe:
+                httpGet:
+                  path: "/ready"
+                  port: http
+              resources:
+                requests:
+                  memory: "100Mi"
+                  cpu: "100m"
+                limits:
+                  memory: "200Mi"
+                  cpu: "200m"
+    ---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: app-1-2-2-1
+    spec:
+      selector:
+        app: '1.2.2.1'
+      ports:
+        - port: 8080
+          targetPort: 8080
+          nodePort: 31221
+      type: NodePort
+    ---
+    apiVersion: autoscaling/v2
+    kind: HorizontalPodAutoscaler
+    metadata:
+      name: app-1-2-2-1
+    spec:
+      scaleTargetRef:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: app-1-2-2-1
+      minReplicas: 2
+      maxReplicas: 4
+      metrics:
+        - type: Resource
+          resource:
+            name: cpu
+            target:
+              type: Utilization
+              averageUtilization: 40
+	```
+ 
+ - connection refused 문제
+    ```
+    Warning Unhealthy 2m46s (x25 over 7m46s) kubelet Startup probe failed: Get "http://20.96.235.214:8080/ready": dial tcp 20.96.235.214:8080: connect: connection refused
+	```
+   - Deployment 스펙에 failureThreshold 값을 100 또는 더 크게.
+     - failureThreshold: 10 => failureThreshold: 100
  - App에 지속적으로 트래픽 보내기 (Traffic Routing 테스트)
    - while true; do curl http://192.168.56.30:31221/hostname; sleep 2; echo '';  done;
  - App에 Memory Leak 나게 하기 (Self-Healing 테스트)
