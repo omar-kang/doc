@@ -1,4 +1,26 @@
+# 설정
+ - 설정 목록 확인: git config --global --list
+ - 설정 파일 직접 수정: git config --global --edit
+ 
+### 전역 설정
+ - 설정 목록 확인 : git config --global --list
+ - 설정 파일 직접 수정 : git config --global --edit
+ - 이름 설정 : git config --global user.name "Bada"
+ - 이메일 설정 : git config --global user.email "bada.egov@gmail.com"
+
+### 로컬 설정
+ - 설정 목록 확인 : git config --local --list
+ - 설정 파일 직접 수정 : git config --local --edit
+ - 이름 설정 : git config --local user.name "Omar"
+ - 이메일 설정 : git config --local user.name "hyogi.dev@gmail.com"
+
+
 # 되돌리기
+
+### 마지막 push 취소
+ - git reset HEAD^
+ - git push origin main -f
+
 ### reset
  - 특정시점으로 되돌리기 : 특정 시점 이후의 커밋은 제거됨
  - git reset --hard 해시코드 => 해시코드 시점으로 되돌림

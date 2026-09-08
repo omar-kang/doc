@@ -11,8 +11,9 @@
 
 #### Pod 확인
  - k get pods -A
- - Dashboard-Metrics Pending 상태 지속 문제 해결
-   - kubectl taint nodes  k8s-master node-role.kubernetes.io/control-plane- 
+ - Dashboard-Metrics Pending 상태 지속 문제 해결(Vagrantfile 파일 주석처리 되어 있음 : 144 Line)
+   - [8-4] Master에 Pod를 생성 할수 있도록 설정
+     - kubectl taint nodes k8s-master node-role.kubernetes.io/control-plane- 
    - https://www.inflearn.com/community/questions/1393510/dashboard-metrics-pending-%EC%83%81%ED%83%9C-%EC%A7%80%EC%86%8D
 
 #### 타임존 설정 확인
@@ -30,10 +31,55 @@
  - kubectl logs &lt;pod-name&gt; -n &lt;name-space&gt;
 
 
+## 섹션5-20강. 모니터링 설치 - Loki-Stack (💻 실습포함)
+ - 실습 자료실 : https://cafe.naver.com/kubeops/30
 
+#### Grafana 접속
+ - 접속 URL : http://192.168.56.30:30001
+ - 로그인 :​ id: admin, pw: admin(최초) -&gt; grafana(변경)
 
+#### Grafana Dashboard 모음
+ - https://grafana.com/grafana/dashboards/
+ - Copy ID to clipboard &gt; import dashboard &gt; import via grafana.com [Load]
+ 
+#### 쿠버네티스 대시보드에 App 배포 실습
+ - https://cafe.naver.com/kubeops/31
+ - dashboard 접속 > Namespace [default] > [+] 버튼 > [입력을 통해 생성] > yaml 파일 붙여넣기 > 업로드
+ - App에 지속적으로 트래픽 보내기 (Traffic Routing 테스트)
+   - while true; do curl http://192.168.56.30:31221/hostname; sleep 2; echo '';  done;
+ - App에 Memory Leak 나게 하기 (Self-Healing 테스트)
+   - url 192.168.56.30:31221/memory-leak
+ - App에 부하주기 (AutoScaling 테스트)
+   - curl 192.168.56.30:31221/cpu-load
+ - App 이미지 업데이트 (RollingUpdate 테스트)
+   - Namespace: default &gt; 디플로이먼트 &gt; ... &gt; 편집
+   ```
+    spec:
+         containers:
+            - name: app-1-2-2-1
+              image: 1pro/app-update  # 수정
+    ```
+   - kubectl 명령으로 할 경우
+     - kubectl set image -n default deployment/app-1-2-2-1 app-1-2-2-1=1pro/app-update
+ - 기동되지 않는 App 업데이트 (RollingUpdate 테스트)	 
+   - Namespace: default &gt; 디플로이먼트 &gt; ... &gt; 편집
+   ```
+	spec:
+		  containers:
+			- name: app-1-2-2-1
+			  image: 1pro/app-error   # 수정
+    ```
+   - kubectl 명령으로 할 경우
+     - kubectl set image -n default deployment/app-1-2-2-1 app-1-2-2-1=1pro/app-error
+   - kubectl 명령으로 업데이트 중지하고 롤백 할 경우
+     - kubectl rollout undo -n default deployment/app-1-2-2-1
 
+ - 강의에서 배포한 Object 삭제
+   - kubectl delete -n default deploy app-1-2-2-1
+   - kubectl delete -n default svc app-1-2-2-1
+   - kubectl delete -n default hpa app-1-2-2-1
 
+ 
 2026년 전자정부 표준프레임워크 컨트리뷰션 기념품 발송 안내] ※응답기한 ~9월30일까지
 
 @bada-egov 님, 안녕하세요.
