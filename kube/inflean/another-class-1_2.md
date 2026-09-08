@@ -1,5 +1,5 @@
-## 섹션4-cmd
-12강.
+## 섹션4-12강.
+
 #### 설치 주소
  - Windows: https://cafe.naver.com/kubeops/21
  - Mac : https://cafe.naver.com/kubeops/91
@@ -12,8 +12,8 @@
 #### Pod 확인
  - k get pods -A
  - Dashboard-Metrics Pending 상태 지속 문제 해결
- -- kubectl taint nodes  k8s-master node-role.kubernetes.io/control-plane- 
- -- https://www.inflearn.com/community/questions/1393510/dashboard-metrics-pending-%EC%83%81%ED%83%9C-%EC%A7%80%EC%86%8D
+   - kubectl taint nodes  k8s-master node-role.kubernetes.io/control-plane- 
+   - https://www.inflearn.com/community/questions/1393510/dashboard-metrics-pending-%EC%83%81%ED%83%9C-%EC%A7%80%EC%86%8D
 
 #### 타임존 설정 확인
  - timedatectl
@@ -25,7 +25,7 @@
 #### Dashboard
  - https://192.168.56.30:30000/#/login
  
-#### Pod 상태, 로그 보기
+#### Pod 설명, 로그 보기
  - kubectl describe pod <pod-name> -n <name-space>
  - kubectl logs <pod-name> -n <name-space>
 
