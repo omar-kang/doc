@@ -14,6 +14,19 @@
  - 이름 설정 : git config --local user.name "Omar"
  - 이메일 설정 : git config --local user.name "hyogi.dev@gmail.com"
 
+### Bada
+ - git config --global user.name "Bada"
+ - git config --global user.email "bada.egov@gmail.com"
+ 
+ - git config --local user.name "Bada"
+ - git config --local user.email "bada.egov@gmail.com"
+
+### Omar
+ - git config --global user.name "Bada"
+ - git config --global user.email "hyogi.dev@gmail.com"
+
+ - git config --local user.name "Omar"
+ - git config --local user.email "hyogi.dev@gmail.com"
 
 # 되돌리기
 
@@ -107,16 +120,16 @@
 
 # Conflict(충돌)
 #### Merge : 동일파일/동일라인이 수정되서 각각의 브랜치에 커밋됨
- 1. conflict-1 브랜치 생성
-    - git branch conflict-1
- 2. main 브랜치에서 파일 수정 후 커밋
- 3. conflict-1 브랜치에서 동일파일/동일라인 을 수정 후 커밋
-    - 해결 1 - merge 중지 : git merge --abort
-    - 해결 2 
-      1) 기준되는 파일을 오픈하고 수정
-      2) git add .
-      3) git commit ==> 커밋메시지 자동 기입됨(Merge branch 'confict-1)
-      4) :wq
- 4. git branch -d conflict-1
+1. conflict-1 브랜치 생성
+ - git branch conflict-1
+2. main 브랜치에서 파일 수정 후 커밋
+3. conflict-1 브랜치에서 동일파일/동일라인 을 수정 후 커밋
+ - 해결 1 - merge 중지 : git merge --abort
+ - 해결 2 
+   1) 기준되는 파일을 오픈하고 수정
+   2) git add .
+   3) git commit ==> 커밋메시지 자동 기입됨(Merge branch 'confict-1)
+   4) :wq
+4. git branch -d conflict-1
 
 
