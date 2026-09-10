@@ -33,9 +33,8 @@
 
 ### 인증방식 확인
 
-    ```
     git remote -v
-    ```
+
  - HTTPS 방식: 주소가 https://로 시작합니다.
    - 예시: origin  https://github.com (fetch)
  - SSH 방식: 주소가 git@으로 시작합니다.
@@ -50,7 +49,7 @@
 	```
    2. 토큰이 포함된 주소로 다시 등록하기
     ```bash
-    git remote add origin https://&lt;사용자명&gt;:&lt;발급받은_토큰&gt;@github.com/&lt;유저이름&gt;/&lt;저장소이름&gt;.git
+    git remote add origin https://<사용자명>:<발급받은_토큰>@github.com/<유저이름>/<저장소이름>.git
 	```
    3. 확인 후 push하기
     ```bash
