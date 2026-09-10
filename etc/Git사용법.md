@@ -50,7 +50,7 @@
 	```
    2. 토큰이 포함된 주소로 다시 등록하기
     ```bash
-    git remote add origin https://&lt;발급받은_토큰&gt;@github.com/&lt;유저이름&gt;/&lt;저장소이름&gt;.git
+    git remote add origin https://&lt;사용자명&gt;:&lt;발급받은_토큰&gt;@github.com/&lt;유저이름&gt;/&lt;저장소이름&gt;.git
 	```
    3. 확인 후 push하기
     ```bash
@@ -114,7 +114,7 @@
 
 # Branch
  - branch 추가
-   - git add 브랜치명
+   - git branch 브랜치명
  - HEAD 변경
    - git switch 브랜치명
  - branch 추가 및 head 변경
@@ -137,6 +137,8 @@
        - error: the branch 'new_branch' is not fully merged 
    7) 브랜치 강제 삭제
        - git branch -D new_branch
+ - 원격 동기화(원격 branch 가져오기 포함)
+   - git fetch origin 
 # 로그
  - git log
  - git log --all --decorate --oneline --graph
