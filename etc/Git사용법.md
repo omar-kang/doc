@@ -28,6 +28,53 @@
  - git config --local user.name "Omar"
  - git config --local user.email "hyogi.dev@gmail.com"
 
+
+# 인증(프로젝트(Repository)별 계정 적용)
+
+### 인증방식 확인
+
+    ```
+    git remote -v
+    ```
+ - HTTPS 방식: 주소가 https://로 시작합니다.
+   - 예시: origin  https://github.com (fetch)
+ - SSH 방식: 주소가 git@으로 시작합니다.
+   - 예시: origin  git@github.com:username/repo.git (fetch)
+
+#### HTTPS 방식 인증 - GitHub의 Personal Access Token(PAT)으로 인증하는 방법
+ - 방법 1. 원격 주소(Remote URL)에 토큰 직접 심기 
+   - (가장 확실)저장소마다 계정을 확실하게 분리하고 싶을 때 가장 추천하는 방법입니다. 프로젝트 주소 자체에 토큰을 포함시켜 인증 과정을 생략합니다.
+   1. 현재 원격 주소 지우기
+    ```bash
+    git remote remove origin
+	```
+   2. 토큰이 포함된 주소로 다시 등록하기
+    ```bash
+    git remote add origin https://&lt;발급받은_토큰&gt;@github.com/&lt;유저이름&gt;/&lt;저장소이름&gt;.git
+	```
+   3. 확인 후 push하기
+    ```bash
+    git remote -v
+    git push -u origin main
+	```
+	
+ - 방법 2. 최초 push할 때 비밀번호(Password) 칸에 입력하기
+   - 토큰을 주소에 노출하고 싶지 않다면, Git 명령을 내릴 때 입력하는 방법입니다.
+   1. git push를 입력합니다.
+   2. Username 입력창이 뜨면 해당 계정의 ID를 입력합니다.
+   3. Password 입력창이 뜨면 GitHub 비밀번호 대신 발급받은 토큰(ghp_...)을 복사해서 붙여넣습니다.(화면에는 아무 글자도 표시되지 않으니 붙여넣고 엔터를 누르세요.)
+    
+ - 방법 3. 임시로 자격 증명(Credential) 캐시 지우기
+   - 만약 컴퓨터에 기본 계정의 정보가 자동 로그인(저장)되어 있어서 자꾸 권한 에러가 난다면, 저장된 인증 정보를 지워야 합니다.
+   - Windows (자격 증명 관리자)
+     - 윈도우 검색창에 제어판 -> 자격 증명 관리자 검색 및 실행
+	 - Windows 자격 증명 선택
+	 - git:https://github.com 항목을 찾아 제거한 후, 다시 git push를 시도하여 방법 2를 진행합니다.
+   - Mac (키체인 접근)
+     - 키체인 접근(Keychain Access) 앱 실행
+	 - github.com 검색
+	 - 인터넷 암호 종류의 인증 정보를 삭제한 후 다시 push를 시도합니다.
+
 # 되돌리기
 
 ### 마지막 push 취소
