@@ -165,7 +165,72 @@
    - kubectl delete -n default svc app-1-2-2-1
    - kubectl delete -n default hpa app-1-2-2-1
 
+## 섹션7-26강. Object 그려보며 이해하기 1/2 (💻 실습포함)
+ - 실습 자료실 : https://cafe.naver.com/kubeops/36
+ - Namespace, Deployment, Service, Configmap/Secret, PVC/PV, HPA 추가
  
+### Namespace
+오브젝트들을 그룹핑 해주는 역할
+ - name
+ - labels
+  
+### Deployment
+Pod를 만들고 업그레이드 해주는 역할
+ - namespace : 그룹핑 될 Namespace 명 설정
+ - name : 한 오브젝트 에서 중복 불가
+ - lables
+ - selector
+ - replicas : Pod 개수 설정
+ - strategy
+   - type : RollingUpdate
+ - template : Pod 명세
+   - spec
+     - nodeSelector
+	   - kubernetes.io/hostname :k8s-master
+   - containers
+     - name : 컨테이너명
+	 - image : 컨테이너 이미지명(docker hub에서 다운받을 이름)
+	 - envForm
+	   - configMapRef
+	     - name : app의 환경변수 (ConfigMap 이름과 동일하게 설정) 
+	 - startupProbe : app이 잘 기동 되었는지 확인
+	 - readinessProbe : app에 Traffic을 연결 할 것인지 확인(서비스를 할 것인지)
+	 - livenessProbe : app이 정상이 아니면 재시작 할 것인지 확인
+	 - resource : 자원 할당
+	 - volumeMounts(여러개 설정 가능)
+       - name : files (volumes name node 값)
+	   - mountPath : /usr/src/myapp/dev/files ==> 물리적 경로
+       - name : secret-datasource (volumes name node 값)
+	   - mountPath : /usr/src/myapp/datasource ==> 물리적 경로	   
+
+### Service
+Pod에 Traffic을 연결해 주는 역할
+
+### ConfigMap
+Pod에 환경변수를 설정 해주는 역할
+
+### Secret
+Pod에 보안이 필요한 설정 해주는 역할
+ - stringData 에 있는 내용을 Pod 안에 파일로 만듬
+
+### PVC
+PV(Cluster 레벨) 설정에서 해당 Namespace가 사용할 저장 공간 설정
+
+### PV
+Cluster 레벨에서 저장 공간 설정
+
+
+
+#### 강의에서 배포한 Object 삭제
+ - kubectl delete ns anotherclass-123
+ - kubectl delete pv api-tester-1231-files
+
+
+
+
+
+
+
 2026년 전자정부 표준프레임워크 컨트리뷰션 기념품 발송 안내] ※응답기한 ~9월30일까지
 
 @bada-egov 님, 안녕하세요.
