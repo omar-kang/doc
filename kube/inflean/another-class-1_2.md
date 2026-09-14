@@ -173,6 +173,8 @@
 오브젝트들을 그룹핑 해주는 역할
  - name
  - labels
+ - 삭제 시 하위 모든 오브젝트 삭제.
+ - PV는 Cluster 레벨이므로 별도 삭제
   
 ### Deployment
 Pod를 만들고 업그레이드 해주는 역할
@@ -219,16 +221,75 @@ PV(Cluster 레벨) 설정에서 해당 Namespace가 사용할 저장 공간 설�
 ### PV
 Cluster 레벨에서 저장 공간 설정
 
-
-
-#### 강의에서 배포한 Object 삭제
+### HPA
+부하에 따라 Pod를 늘리거나 줄이는 역할
+ - Scale대상 : Deployment
+ - minReplicas / maxReplicas 개수 설정에서
+ - cpu 사용율 등 늘리는 조건 설정
+ - 다음 replica 를 늘릴때의 Term 설정(600초)
+ 
+### 강의에서 배포한 Object 삭제
  - kubectl delete ns anotherclass-123
  - kubectl delete pv api-tester-1231-files
 
 
+## 섹션7-27강. Object 그려보며 이해하기 2/2 (💻 실습포함)
+
+### Prometheus labels node 내용 설명
+```yaml
+labels:
+   part-of : kube-prometheus
+   component : prometheus
+   name : prometheus
+   instance : k8s
+   version :  2.33.0
+```
+```yaml
+labels:
+   part-of : kube-prometheus
+   component : expoter
+   name : kube-state-metrics ==> kube 성능
+   instance : k8s
+   version :  xxx
+```
+```
+labels:
+   part-of : kube-prometheus
+   component : expoter
+   name : node-exporter ==> vm 성능
+   instance : k8s
+   version :  xxx
+```
+```yaml
+labels:
+   part-of : kube-prometheus
+   component : grafana
+   name : grafana
+   instance : k8s
+   version :  2.33.0
+```
+ - part-of : App 구성 전체 이름
+ - component : 구성요소(prometheus, exporter, grafana)
+ - name : App 개별 이름
+ - instance : prometheus를 목적에 따라 여러개 설치 할 경우의 식별할 이름(일반적으로 : name + 인스턴스이름)
+ - version : App 버전
+
+### Object Naming 룰 예시
+ - Namespace : monitoring
+ - StatefulSet : prometheus-k8s
+ - Service : prometheus-k8s
+ - ConfigMap : prometheus-k8s-rule
 
 
+### ConfigMap
+ - 여러개 만들수 있음
+ - 외부에서 App에 전달하는 모든 데이터들을 configmap에 담을 수 있음
+ - prometheus 의 configmap에는 성능 관련 계산 공식이 있음(기동시 초기 데이터로 사용)
 
+### Managed-by
+ - 쿠버네티스의 권고 label 정보
+ - 어떤 도구로 배포 됐는지 관리하는 정보
+   - dashboard : "Object 그려보며 이해하기" yaml 정보들을 대시보드를 통해 등록 함
 
 
 2026년 전자정부 표준프레임워크 컨트리뷰션 기념품 발송 안내] ※응답기한 ~9월30일까지
