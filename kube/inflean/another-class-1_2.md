@@ -36,14 +36,14 @@
  - kubectl logs &lt;pod-name&gt; -n &lt;name-space&gt;
 
 ## 섹션1-5강. 컨테이너 한방정리
- - [1-1-1 컨테이너 한방정리2 - 인프런.pdf]()
+ - [1-1-1 컨테이너 한방정리2 - 인프런.pdf](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-1-1%20%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88%20%ED%95%9C%EB%B0%A9%EC%A0%95%EB%A6%AC2%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0.pdf)
 
 
 ## 섹션1-7강. 쿠버네티스 흐름으로 이해하는 컨테이너
- - [쿠버네티스 흐름으로 이해하는 컨테이너]()
+ - [쿠버네티스 흐름으로 이해하는 컨테이너](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%ED%9D%90%EB%A6%84%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EB%8A%94%20%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88%20(%EC%9D%BC%ED%94%84%EB%A1%9C%20%EC%B6%94%EA%B0%80%EC%A0%95%EB%A6%AC%20%EB%B2%84%EC%A0%843).pdf)
  
 ## 섹션4-18강. 실무에서 느껴본 쿠버네티스가 정말 편한 이유
- - [실무에서 느껴본 쿠버네티스가 정말 편한 이유]()
+ - [실무에서 느껴본 쿠버네티스가 정말 편한 이유](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-1-3%20%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C%20%EB%8A%90%EA%BB%B4%EB%B3%B8%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%EA%B0%80%20%EC%A0%95%EB%A7%90%20%ED%8E%B8%ED%95%9C%20%EC%9D%B4%EC%9C%A0%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0-1788853.pdf)
 
 
 ## 섹션5-20강. 모니터링 설치 - Loki-Stack (💻 실습포함)
@@ -143,6 +143,8 @@ Pod를 만들고 업그레이드 해주는 역할
 
 ### Service
 Pod에 Traffic을 연결해 주는 역할
+ - Pod에는 서비스를 여러개 붙일 수 있음
+ 
 
 ### ConfigMap
 Pod에 환경변수를 설정 해주는 역할
@@ -163,7 +165,8 @@ Cluster 레벨에서 저장 공간 설정
  - minReplicas / maxReplicas 개수 설정에서
  - cpu 사용율 등 늘리는 조건 설정
  - 다음 replica 를 늘릴때의 Term 설정(600초)
- 
+ - 이벤트 등 상황에 따른 HPA를 여러개 만들수 있음
+  
 ### 강의에서 배포한 Object 삭제
  - kubectl delete ns anotherclass-123
  - kubectl delete pv api-tester-1231-files
@@ -264,22 +267,31 @@ labels:
             - 반대는 불가
             - instance은 필수 이며 나머지는 선택 사항
     - selector와 labels의 연결
-    ````
-    방법1) labels <-> selector
+        ````
         Deployment(selector) ─ ReplicaSet(labels) => 참고)공백특수문자 : '　'
         ······················ ReplicaSet(selector)· ─ Pod(labels)
         ······················ Service(selector)···· ─ Pod(labels)
         PVC(selector) ─ PV(labels)
-    방법2) object 내에서 대상을 연결하는 속성
-        HPA
-    ````
+        ````
 ### 쿠버네티스의 Object간 연결하는 방법
 
  - 방법1) labels <-> selector
+    ````
+    Deployment(selector) ─ ReplicaSet(labels) => 참고)공백특수문자 : '　'
+    ······················ ReplicaSet(selector)· ─ Pod(labels)
+    ······················ Service(selector)···· ─ Pod(labels)
+    PersistentVolumeClaim(selector) ─ PersistentVolume(labels)
+    ````
  - 방법2) object 내에서 대상을 연결하는 속성
-·
-
-
+    ````
+    HPA(scaleTargetRef.name 속성) ─ Deployment(labels.instance 속성)
+    Pod(configMapRef.name 속성) ─ ConfigMap(metadata.name 속성)
+    Pod(persistentVolumeClaim.claimName 속성) ─ PersistentVolumeClaim(metadata.name 속성 or matchLabels.instance)
+    Pod(secret.secretName 속성) ─ Secret(metadata.name 속성)
+    ````
+    
+### 강의자료
+ - [쿠버네티스 첫 오브젝트 잘 끼우기 - object 그려보며 이해하기](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-1%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EC%B2%AB%20%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%20%EC%9E%98%20%EB%81%BC%EC%9A%B0%EA%B8%B0%20-%20object%20%EA%B7%B8%EB%A0%A4%EB%B3%B4%EB%A9%B0%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0-1788853.pdf)
 
 
 
