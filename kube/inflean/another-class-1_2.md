@@ -289,12 +289,35 @@ labels:
     Pod(persistentVolumeClaim.claimName 속성) ─ PersistentVolumeClaim(metadata.name 속성 or matchLabels.instance)
     Pod(secret.secretName 속성) ─ Secret(metadata.name 속성)
     ````
-    
+### 쿠버네티스가 만든 Master Node 설정
+    ````
+    Pod(nodeSelector.kubernetes.io/hostname) : k8s-master
+    PersistentVolume(nodeAffinity.required.nodeSelectorTerms.matchExpressions) : - {key: kubernetes.io/hostname, operator: In, values: [k8s-master]}
+    ````
+
+### Selector
+ - Service
+    ````
+    selector:
+      part-of: k8s-anotherclass
+      component: backend-server
+      name: api-tester
+      instance: api-tester-1231
+    ````
+  - PersistentVolumeClaim
+    ````
+    matchLabels:
+      part-of: k8s-anotherclass
+      component: backend-server
+      name: api-tester
+      instance: api-tester-1231-files
+    ````   
 ### 강의자료
  - [쿠버네티스 첫 오브젝트 잘 끼우기 - object 그려보며 이해하기](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-1%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EC%B2%AB%20%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%20%EC%9E%98%20%EB%81%BC%EC%9A%B0%EA%B8%B0%20-%20object%20%EA%B7%B8%EB%A0%A4%EB%B3%B4%EB%A9%B0%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0-1788853.pdf)
 
 
-
+## 섹션8-29강. Application 기능을 이해하기 - Pod (probe)
+ - [쿠버네티스 첫 오브젝트 잘 끼우기 - application 기능으로 이해하기(1)]()
 
 
 
