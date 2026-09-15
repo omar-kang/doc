@@ -42,9 +42,9 @@
  - Copy ID to clipboard &gt; import dashboard &gt; import via grafana.com [Load]
  
 #### 쿠버네티스 대시보드에 App 배포 실습
-
+ - https://cafe.naver.com/kubeops/31
+ - [yaml : 쿠버네티스가 정말 편한 이유[체험 App배포](쿠버네티스 대표 기능).md](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/Object%20%EA%B7%B8%EB%A0%A4%EB%B3%B4%EB%A9%B0%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0%201_2.md)
  
- - connection refused 문제
     ```
     Warning Unhealthy 2m46s (x25 over 7m46s) kubelet Startup probe failed: Get "http://20.96.235.214:8080/ready": dial tcp 20.96.235.214:8080: connect: connection refused
     ```
