@@ -4,7 +4,6 @@
  - Windows: https://cafe.naver.com/kubeops/21
  - Mac : https://cafe.naver.com/kubeops/91
  
- 
 #### 접속 정보
  - 192.168.56.30
  - root / vagrant
@@ -43,92 +42,12 @@
  - Copy ID to clipboard &gt; import dashboard &gt; import via grafana.com [Load]
  
 #### 쿠버네티스 대시보드에 App 배포 실습
- - https://cafe.naver.com/kubeops/31
- 
- 
- - dashboard 접속 > Namespace [default] > [+] 버튼 > [입력을 통해 생성] > yaml 내용 붙여넣기 > 업로드
-    ```yaml
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: app-1-2-2-1
-    spec:
-      selector:
-        matchLabels:
-          app: '1.2.2.1'
-      replicas: 2
-      strategy:
-        type: RollingUpdate
-      template:
-        metadata:
-          labels:
-            app: '1.2.2.1'
-        spec:
-          containers:
-            - name: app-1-2-2-1
-              image: 1pro/app
-              imagePullPolicy: Always
-              ports:
-                - name: http
-                  containerPort: 8080
-              startupProbe:
-                httpGet:
-                  path: "/ready"
-                  port: http
-                failureThreshold: 1000
-              livenessProbe:
-                httpGet:
-                  path: "/ready"
-                  port: http
-              readinessProbe:
-                httpGet:
-                  path: "/ready"
-                  port: http
-              resources:
-                requests:
-                  memory: "100Mi"
-                  cpu: "100m"
-                limits:
-                  memory: "200Mi"
-                  cpu: "200m"
-    ---
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: app-1-2-2-1
-    spec:
-      selector:
-        app: '1.2.2.1'
-      ports:
-        - port: 8080
-          targetPort: 8080
-          nodePort: 31221
-      type: NodePort
-    ---
-    apiVersion: autoscaling/v2
-    kind: HorizontalPodAutoscaler
-    metadata:
-      name: app-1-2-2-1
-    spec:
-      scaleTargetRef:
-        apiVersion: apps/v1
-        kind: Deployment
-        name: app-1-2-2-1
-      minReplicas: 2
-      maxReplicas: 4
-      metrics:
-        - type: Resource
-          resource:
-            name: cpu
-            target:
-              type: Utilization
-              averageUtilization: 40
-	```
+
  
  - connection refused 문제
     ```
     Warning Unhealthy 2m46s (x25 over 7m46s) kubelet Startup probe failed: Get "http://20.96.235.214:8080/ready": dial tcp 20.96.235.214:8080: connect: connection refused
-	```
+    ```
    - Deployment 스펙에 failureThreshold 값을 100 또는 더 크게.
      - failureThreshold: 10 => failureThreshold: 100
  - App에 지속적으로 트래픽 보내기 (Traffic Routing 테스트)
@@ -147,13 +66,13 @@
     ```
    - kubectl 명령으로 할 경우
      - kubectl set image -n default deployment/app-1-2-2-1 app-1-2-2-1=1pro/app-update
- - 기동되지 않는 App 업데이트 (RollingUpdate 테스트)	 
+ - 기동되지 않는 App 업데이트 (RollingUpdate 테스트)     
    - Namespace: default &gt; 디플로이먼트 &gt; ... &gt; 편집
    ```
-	spec:
-		  containers:
-			- name: app-1-2-2-1
-			  image: 1pro/app-error   # 수정
+    spec:
+          containers:
+            - name: app-1-2-2-1
+              image: 1pro/app-error   # 수정
     ```
    - kubectl 명령으로 할 경우
      - kubectl set image -n default deployment/app-1-2-2-1 app-1-2-2-1=1pro/app-error
@@ -188,22 +107,22 @@ Pod를 만들고 업그레이드 해주는 역할
  - template : Pod 명세
    - spec
      - nodeSelector
-	   - kubernetes.io/hostname :k8s-master
+       - kubernetes.io/hostname :k8s-master
    - containers
      - name : 컨테이너명
-	 - image : 컨테이너 이미지명(docker hub에서 다운받을 이름)
-	 - envForm
-	   - configMapRef
-	     - name : app의 환경변수 (ConfigMap 이름과 동일하게 설정) 
-	 - startupProbe : app이 잘 기동 되었는지 확인
-	 - readinessProbe : app에 Traffic을 연결 할 것인지 확인(서비스를 할 것인지)
-	 - livenessProbe : app이 정상이 아니면 재시작 할 것인지 확인
-	 - resource : 자원 할당
-	 - volumeMounts(여러개 설정 가능)
+     - image : 컨테이너 이미지명(docker hub에서 다운받을 이름)
+     - envForm
+       - configMapRef
+         - name : app의 환경변수 (ConfigMap 이름과 동일하게 설정) 
+     - startupProbe : app이 잘 기동 되었는지 확인
+     - readinessProbe : app에 Traffic을 연결 할 것인지 확인(서비스를 할 것인지)
+     - livenessProbe : app이 정상이 아니면 재시작 할 것인지 확인
+     - resource : 자원 할당
+     - volumeMounts(여러개 설정 가능)
        - name : files (volumes name node 값)
-	   - mountPath : /usr/src/myapp/dev/files ==> 물리적 경로
+       - mountPath : /usr/src/myapp/dev/files ==> 물리적 경로
        - name : secret-datasource (volumes name node 값)
-	   - mountPath : /usr/src/myapp/datasource ==> 물리적 경로	   
+       - mountPath : /usr/src/myapp/datasource ==> 물리적 경로       
 
 ### Service
 Pod에 Traffic을 연결해 주는 역할
@@ -231,7 +150,6 @@ Cluster 레벨에서 저장 공간 설정
 ### 강의에서 배포한 Object 삭제
  - kubectl delete ns anotherclass-123
  - kubectl delete pv api-tester-1231-files
-
 
 ## 섹션7-27강. Object 그려보며 이해하기 2/2 (💻 실습포함)
 
@@ -288,8 +206,89 @@ labels:
 
 ### Managed-by
  - 쿠버네티스의 권고 label 정보
- - 어떤 도구로 배포 됐는지 관리하는 정보
+ - 어떤 도구로 배포 됐는지 설정
    - dashboard : "Object 그려보며 이해하기" yaml 정보들을 대시보드를 통해 등록 함
+
+
+### 강의에서의 오브젝트 구성요소
+ - Namespace : anotherclass-123
+ - Deployment : api-tester-1231
+    ````
+    spec:
+      strategy : RollingUpdate
+      replicas : 2
+    ````
+
+    - 위 설정을 기반으로 ReplicaSet 생성
+    - 이름 : api-tester-1231-xxx(임의의 문자 자동 부여) ==> ReplicaSet 이름
+      - ReplicaSet을 기반으로 Pod 생성
+      - 이름 : api-tester-1231-xxx-yyy(임의의 문자 자동 부여) ==> Pod 이름
+        - Pod의 lables(spec.metadata.labels)
+            ````
+            labels:
+              part-of: k8s-anotherclass
+              component: backend-server
+              name: api-tester
+              instance: api-tester-1231
+              version: 1.0.0
+            ````
+            - App 정보를 파악하기 위한 용도
+            - selector와 연결해서 두 오브젝트를 연결하는 용도
+        - ReplicaSet의 selector(spec.selector.matchLabels) : Pod와 연결
+            ````
+            matchLabels:
+              part-of: k8s-anotherclass
+              component: backend-server
+              name: api-tester
+              instance: api-tester-1231
+            ````
+          - ReplicaSet의 selector의 내용은 모두 Pod의 lables에 포함되어야 함
+            - Pod의 lables 에 추가로 더있는 정보는 가능
+            - 반대는 불가
+            - instance은 필수 이며 나머지는 선택 사항
+    - selector와 labels의 연결
+    ````
+    방법1) labels <-> selector
+        Deployment(selector) ─ ReplicaSet(labels) => 참고)공백특수문자 : '　'
+        ······················ ReplicaSet(selector)· ─ Pod(labels)
+        ······················ Service(selector)···· ─ Pod(labels)
+        PVC(selector) ─ PV(labels)
+    방법2) object 내에서 대상을 연결하는 속성
+        HPA
+    ````
+### 쿠버네티스의 Object간 연결하는 방법
+
+ - 방법1) labels <-> selector
+ - 방법2) object 내에서 대상을 연결하는 속성
+·
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 2026년 전자정부 표준프레임워크 컨트리뷰션 기념품 발송 안내] ※응답기한 ~9월30일까지
