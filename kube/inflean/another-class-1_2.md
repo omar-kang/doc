@@ -3,6 +3,12 @@
 #### 설치 주소
  - Windows: https://cafe.naver.com/kubeops/21
  - Mac : https://cafe.naver.com/kubeops/91
+
+ - 섹션3-9강. [무게감 있게 설치하는 방법 0-Windows빠른설치 _ 네이버 카페.pdf](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/%EB%AC%B4%EA%B2%8C%EA%B0%90%20%EC%9E%88%EA%B2%8C%20%EC%84%A4%EC%B9%98%ED%95%98%EB%8A%94%20%EB%B0%A9%EB%B2%95%200-Windows%EB%B9%A0%EB%A5%B8%EC%84%A4%EC%B9%98%20_%20%EB%84%A4%EC%9D%B4%EB%B2%84%20%EC%B9%B4%ED%8E%98.pdf)
+ 
+ - 섹션3-13강. [무게감 있게 설치하는 방법 1-1788853.pdf](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/%EB%AC%B4%EA%B2%8C%EA%B0%90%20%EC%9E%88%EA%B2%8C%20%EC%84%A4%EC%B9%98%ED%95%98%EB%8A%94%20%EB%B0%A9%EB%B2%95%201-1788853.pdf)
+ 
+ - 섹션3-14강. [무게감 있게 설치하는 방법 2-1788853.pdf](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/%EB%AC%B4%EA%B2%8C%EA%B0%90%20%EC%9E%88%EA%B2%8C%20%EC%84%A4%EC%B9%98%ED%95%98%EB%8A%94%20%EB%B0%A9%EB%B2%95%202-1788853.pdf)
  
 #### 접속 정보
  - 192.168.56.30
@@ -29,6 +35,16 @@
  - kubectl describe pod &lt;pod-name&gt; -n &lt;name-space&gt;
  - kubectl logs &lt;pod-name&gt; -n &lt;name-space&gt;
 
+## 섹션1-5강. 컨테이너 한방정리
+ - [1-1-1 컨테이너 한방정리2 - 인프런.pdf]()
+
+
+## 섹션1-7강. 쿠버네티스 흐름으로 이해하는 컨테이너
+ - [쿠버네티스 흐름으로 이해하는 컨테이너]()
+ 
+## 섹션4-18강. 실무에서 느껴본 쿠버네티스가 정말 편한 이유
+ - [실무에서 느껴본 쿠버네티스가 정말 편한 이유]()
+
 
 ## 섹션5-20강. 모니터링 설치 - Loki-Stack (💻 실습포함)
  - 실습 자료실 : https://cafe.naver.com/kubeops/30
@@ -43,7 +59,7 @@
  
 #### 쿠버네티스 대시보드에 App 배포 실습
  - https://cafe.naver.com/kubeops/31
- - [yaml : 쿠버네티스가 정말 편한 이유[체험 App배포](쿠버네티스 대표 기능).md](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/Object%20%EA%B7%B8%EB%A0%A4%EB%B3%B4%EB%A9%B0%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0%201_2.md)
+ - [yaml : 쿠버네티스가 정말 편한 이유[체험 App배포](쿠버네티스 대표 기능).md](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%EA%B0%80_%EC%A0%95%EB%A7%90_%ED%8E%B8%ED%95%9C_%EC%9D%B4%EC%9C%A0_%EC%B2%B4%ED%97%98App%EB%B0%B0%ED%8F%AC.md
  
     ```
     Warning Unhealthy 2m46s (x25 over 7m46s) kubelet Startup probe failed: Get "http://20.96.235.214:8080/ready": dial tcp 20.96.235.214:8080: connect: connection refused
@@ -87,6 +103,7 @@
 ## 섹션7-26강. Object 그려보며 이해하기 1/2 (💻 실습포함)
  - 실습 자료실 : https://cafe.naver.com/kubeops/36
  - Namespace, Deployment, Service, Configmap/Secret, PVC/PV, HPA 추가
+ - [Object 그려보며 이해하기 1_2.md](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/Object%20%EA%B7%B8%EB%A0%A4%EB%B3%B4%EB%A9%B0%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0%201_2.md)
  
 ### Namespace
 오브젝트들을 그룹핑 해주는 역할
