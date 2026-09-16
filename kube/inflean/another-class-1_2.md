@@ -317,8 +317,12 @@ labels:
 
 
 ## 섹션8-29강. Application 기능을 이해하기 - Pod (probe)
- - [쿠버네티스 첫 오브젝트 잘 끼우기 - application 기능으로 이해하기(1)]()
+ - [쿠버네티스 첫 오브젝트 잘 끼우기 - application 기능으로 이해하기(1) - Pod(probe)](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-2%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EC%B2%AB%20%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%20%EC%9E%98%20%EB%81%BC%EC%9A%B0%EA%B8%B0%20-%20application%20%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0(1)%20-%20Pod(probe).pdf)
 
+
+## 섹션8-30강. Probe 기본개념
+
+ - [쿠버네티스 첫 오브젝트 잘 끼우기 - application 기능으로 이해하기(1) - Pod(probe)](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-2%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EC%B2%AB%20%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%20%EC%9E%98%20%EB%81%BC%EC%9A%B0%EA%B8%B0%20-%20application%20%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0(1)%20-%20Pod(probe).pdf)
 
 
 

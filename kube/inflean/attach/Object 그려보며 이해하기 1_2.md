@@ -247,3 +247,31 @@ spec:
     scaleUp:
       stabilizationWindowSeconds: 120
 ```
+
+## 원본에서 변경
+```
+          startupProbe:
+            httpGet:
+              path: "/startup"
+              port: 8080
+            timeoutSeconds: 20
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 20
+          readinessProbe:
+            httpGet:
+              path: "/readiness"
+              port: 8080
+            timeoutSeconds: 20
+            periodSeconds: 20
+            successThreshold: 1
+            failureThreshold: 20
+          livenessProbe:
+            httpGet:
+              path: "/liveness"
+              port: 8080
+            timeoutSeconds: 20
+            periodSeconds: 20
+            successThreshold: 1
+            failureThreshold: 20
+```
