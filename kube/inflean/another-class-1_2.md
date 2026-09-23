@@ -364,7 +364,7 @@ Elastic Search 연계
 
 DX UIM, OnTune 을 통한 장애감지 및 시스템 리소스 모니터링
 
-Redis 를 통한 세션 클러스트링
+Redis를 통한 세션정보 공유
  - ESXi Host에 각각 Redis용 VM을 생성하여 고가용성으로 구성 
 
 
