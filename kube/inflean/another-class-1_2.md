@@ -74,7 +74,7 @@
    - curl 192.168.56.30:31221/cpu-load
  - App 이미지 업데이트 (RollingUpdate 테스트)
    - Namespace: default &gt; 디플로이먼트 &gt; ... &gt; 편집
-   ```
+   ```yaml
     spec:
          containers:
             - name: app-1-2-2-1
@@ -84,7 +84,7 @@
      - kubectl set image -n default deployment/app-1-2-2-1 app-1-2-2-1=1pro/app-update
  - 기동되지 않는 App 업데이트 (RollingUpdate 테스트)     
    - Namespace: default &gt; 디플로이먼트 &gt; ... &gt; 편집
-   ```
+   ```yaml
     spec:
           containers:
             - name: app-1-2-2-1
@@ -190,7 +190,7 @@ labels:
    instance : k8s
    version :  xxx
 ```
-```
+```yaml
 labels:
    part-of : kube-prometheus
    component : expoter
@@ -233,97 +233,111 @@ labels:
 ### 강의에서의 오브젝트 구성요소
  - Namespace : anotherclass-123
  - Deployment : api-tester-1231
-    ````
+    ```yaml
     spec:
       strategy : RollingUpdate
       replicas : 2
-    ````
+    ```
 
     - 위 설정을 기반으로 ReplicaSet 생성
     - 이름 : api-tester-1231-xxx(임의의 문자 자동 부여) ==> ReplicaSet 이름
       - ReplicaSet을 기반으로 Pod 생성
       - 이름 : api-tester-1231-xxx-yyy(임의의 문자 자동 부여) ==> Pod 이름
         - Pod의 lables(spec.metadata.labels)
-            ````
+            ```yaml
             labels:
               part-of: k8s-anotherclass
               component: backend-server
               name: api-tester
               instance: api-tester-1231
               version: 1.0.0
-            ````
+            ```
             - App 정보를 파악하기 위한 용도
             - selector와 연결해서 두 오브젝트를 연결하는 용도
         - ReplicaSet의 selector(spec.selector.matchLabels) : Pod와 연결
-            ````
+            ```yaml
             matchLabels:
               part-of: k8s-anotherclass
               component: backend-server
               name: api-tester
               instance: api-tester-1231
-            ````
+            ```
           - ReplicaSet의 selector의 내용은 모두 Pod의 lables에 포함되어야 함
             - Pod의 lables 에 추가로 더있는 정보는 가능
             - 반대는 불가
             - instance은 필수 이며 나머지는 선택 사항
     - selector와 labels의 연결
-        ````
+        ```
         Deployment(selector) ─ ReplicaSet(labels) => 참고)공백특수문자 : '　'
         ······················ ReplicaSet(selector)· ─ Pod(labels)
         ······················ Service(selector)···· ─ Pod(labels)
         PVC(selector) ─ PV(labels)
-        ````
+        ```
 ### 쿠버네티스의 Object간 연결하는 방법
 
  - 방법1) labels <-> selector
-    ````
+    ```
     Deployment(selector) ─ ReplicaSet(labels) => 참고)공백특수문자 : '　'
     ······················ ReplicaSet(selector)· ─ Pod(labels)
     ······················ Service(selector)···· ─ Pod(labels)
     PersistentVolumeClaim(selector) ─ PersistentVolume(labels)
-    ````
+    ```
  - 방법2) object 내에서 대상을 연결하는 속성
-    ````
+    ```
     HPA(scaleTargetRef.name 속성) ─ Deployment(labels.instance 속성)
     Pod(configMapRef.name 속성) ─ ConfigMap(metadata.name 속성)
     Pod(persistentVolumeClaim.claimName 속성) ─ PersistentVolumeClaim(metadata.name 속성 or matchLabels.instance)
     Pod(secret.secretName 속성) ─ Secret(metadata.name 속성)
-    ````
+    ```
 ### 쿠버네티스가 만든 Master Node 설정
-    ````
+    ```
     Pod(nodeSelector.kubernetes.io/hostname) : k8s-master
     PersistentVolume(nodeAffinity.required.nodeSelectorTerms.matchExpressions) : - {key: kubernetes.io/hostname, operator: In, values: [k8s-master]}
-    ````
+    ```
 
 ### Selector
  - Service
-    ````
+    ```yaml
     selector:
       part-of: k8s-anotherclass
       component: backend-server
       name: api-tester
       instance: api-tester-1231
-    ````
+    ```
   - PersistentVolumeClaim
-    ````
+    ```yaml
     matchLabels:
       part-of: k8s-anotherclass
       component: backend-server
       name: api-tester
       instance: api-tester-1231-files
-    ````   
+    ```   
 ### 강의자료
  - [쿠버네티스 첫 오브젝트 잘 끼우기 - object 그려보며 이해하기](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-1%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EC%B2%AB%20%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%20%EC%9E%98%20%EB%81%BC%EC%9A%B0%EA%B8%B0%20-%20object%20%EA%B7%B8%EB%A0%A4%EB%B3%B4%EB%A9%B0%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0-1788853.pdf)
 
 
-## 섹션8-29강. Application 기능을 이해하기 - Pod (probe)
+## 섹션8-29강. Application 기능을 이해하기 - Pod (probe) 자료
  - [쿠버네티스 첫 오브젝트 잘 끼우기 - application 기능으로 이해하기(1) - Pod(probe)](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-2%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EC%B2%AB%20%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%20%EC%9E%98%20%EB%81%BC%EC%9A%B0%EA%B8%B0%20-%20application%20%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0(1)%20-%20Pod(probe).pdf)
 
 
-## 섹션8-30강. Probe 기본개념
+## 섹션8-29강. Probe 자료
 
  - [쿠버네티스 첫 오브젝트 잘 끼우기 - application 기능으로 이해하기(1) - Pod(probe)](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-2%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EC%B2%AB%20%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%20%EC%9E%98%20%EB%81%BC%EC%9A%B0%EA%B8%B0%20-%20application%20%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0(1)%20-%20Pod(probe).pdf)
 
+ - startupProbe
+   - 설정된 간격으로 호출을 하고 한번이라도 성공하면 성공으로 간주하고 readinessProbe, livenessProbe 를 호출
+ - readinessProbe
+   - 성공하면 외부서비스를 Pod가 받을 수 있는 상태로 변경
+ - livenessProbe
+   - App가 살아있는지 확인을 하고 설정한 회수 만큼 실패하면 App을 재기동
+   
+## 섹션8-31강. Application 로그를 통한 프로브 동작 분석 (💻 실습포함)
+ - https://cafe.naver.com/kubeops/39
+ - [Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석/Application 동작 중심의 프로브 이해)](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/Application%20%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-Probe(Application%20%EB%A1%9C%EA%B7%B8%EB%A5%BC%20%ED%86%B5%ED%95%9C%20%ED%94%84%EB%A1%9C%EB%B8%8C%20%EB%8F%99%EC%9E%91%20%EB%B6%84%EC%84%9D_Application%20%EB%8F%99%EC%9E%91%20%EC%A4%91%EC%8B%AC%EC%9D%98%20%ED%94%84%EB%A1%9C%EB%B8%8C%20%EC%9D%B4%ED%95%B4)%20_%20%EB%84%A4%EC%9D%B4%EB%B2%84%20%EC%B9%B4%ED%8E%98.pdf)
+
+## 섹션8-32강. Application 동작 중심의 프로브 이해
+ - https://cafe.naver.com/kubeops/39
+ - [Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석/Application 동작 중심의 프로브 이해)]()
 
 
 
@@ -338,9 +352,20 @@ labels:
 
 
 
+다양한 인터페이스로 타 시스템 요청/응답 연계
+ - RESTful API, WSDL 2.0 등
+ 
+다양한 데이터 형식으로 타 시스템 요청/응답 연계
+ - 데이터 형식: XML 1.0, JSON, Fixed Langth, Delimeter 등
 
+UMS 등 DB를 통한 연계
 
+Elastic Search 연계
 
+DX UIM, OnTune 을 통한 장애감지 및 시스템 리소스 모니터링
+
+Redis 를 통한 세션 클러스트링
+ - ESXi Host에 각각 Redis용 VM을 생성하여 고가용성으로 구성 
 
 
 
