@@ -339,6 +339,45 @@ labels:
  - https://cafe.naver.com/kubeops/39
  - [Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석/Application 동작 중심의 프로브 이해)]()
 
+## 섹션8-33강. Application 동작 중심의 프로브 이해 (💻 실습)
+ - https://cafe.naver.com/kubeops/39
+ - [Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석/Application 동작 중심의 프로브 이해)]()
+
+- [App 초기화] 중 시스템 연동 작업을 하고, [User 초기화] 중에 초기 데이터 로딩 작업이 있음. 그리고 이 작업이 다 끝나야 [기동완료] 가 되는 App 기동 상황
+
+- startupProbe가 5초 간격으로 호출 되고, 성공할 때까지 반복, 성공 후 readinessProbe와 livenessProbe가 시작
+
+- livenessProbe는 바로 성공을 하지만, readinessProbe는 처음 실패 후에 [기동완료] 가 되서야 성공을 함
+
+- livenessProbe와 readinessProbe는 10초 간격으로 계속 호출 됨
+
+    ```
+    ﻿// 1번 API - 외부 API 실패
+    curl http://192.168.56.30:31231/hello
+
+    ﻿// 2번 API 
+    // 외부 API 실패
+    curl http://192.168.56.30:31231/hello
+
+    // 내부 API 성공
+    kubectl exec -n anotherclass-123 -it api-tester-1231-7459cd7df-2hdhk -- curl localhost:8080/hello
+    kubectl exec -n anotherclass-123 -it <my-pod-name> -- curl localhost:8080/hello
+
+    ﻿// 3번 API - 외부 API 성공
+    curl http://192.168.56.30:31231/hello
+
+    ﻿// 4번 API
+    // 트래픽 중단 - (App 내부 isAppReady를 False로 바꿈)
+    curl http://192.168.56.30:31231/traffic-off
+    // 외부 API 실패
+    curl http://192.168.56.30:31231/hello﻿
+    // 트래픽 재개 - (App 내부 isAppReady를 True로 바꿈)
+    kubectl exec -n anotherclass-123 -it api-tester-1231-7459cd7df-2hdhk -- curl localhost:8080/traffic-on
+
+    ﻿// 5번 API - 장애발생 (App 내부 isAppLive를 False로 바꿈)
+    curl http://192.168.56.30:31231/server-error
+    ```
+
 
 
 
