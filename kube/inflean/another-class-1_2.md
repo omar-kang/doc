@@ -396,9 +396,9 @@ labels:
 - [Application 기능으로 이해하기-Probe(응용 과제)](https://cafe.naver.com/kubeops/40)
 
 ## 섹션8-37강. Configmap, Secret 기본 개념
-https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=174651&subtitleLanguage=ko
-
-- [Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석/Application 동작 중심의 프로브 이해)](https://cafe.naver.com/kubeops/39)
+**강의 : ** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=174651&subtitleLanguage=ko
+**자료 : **
+- [1-2-3_쿠버네티스_첫_오브젝트_잘_끼우기_-_application_기능으로_이해하기(2)_-_Configmap,_Secret_-_인프런2.pdf](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-3_%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4_%EC%B2%AB_%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8_%EC%9E%98_%EB%81%BC%EC%9A%B0%EA%B8%B0_-_application_%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C_%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0(2)_-_Configmap%2C_Secret_-_%EC%9D%B8%ED%94%84%EB%9F%B02.pdf)
 
 
 
