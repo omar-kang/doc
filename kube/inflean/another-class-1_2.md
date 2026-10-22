@@ -40,14 +40,25 @@
 
 
 ## 섹션1-7강. 쿠버네티스 흐름으로 이해하는 컨테이너
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205408&subtitleLanguage=ko
+
+**자료:**[실무에서 느껴본 쿠버네티스가 정말 편한 이유](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-1-3%20%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C%20%EB%8A%90%EA%BB%B4%EB%B3%B8%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%EA%B0%80%20%EC%A0%95%EB%A7%90%20%ED%8E%B8%ED%95%9C%20%EC%9D%B4%EC%9C%A0%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0-1788853.pdf)
+
  - [쿠버네티스 흐름으로 이해하는 컨테이너](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%ED%9D%90%EB%A6%84%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EB%8A%94%20%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88%20(%EC%9D%BC%ED%94%84%EB%A1%9C%20%EC%B6%94%EA%B0%80%EC%A0%95%EB%A6%AC%20%EB%B2%84%EC%A0%843).pdf)
  
 ## 섹션4-18강. 실무에서 느껴본 쿠버네티스가 정말 편한 이유
- - [실무에서 느껴본 쿠버네티스가 정말 편한 이유](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-1-3%20%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C%20%EB%8A%90%EA%BB%B4%EB%B3%B8%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%EA%B0%80%20%EC%A0%95%EB%A7%90%20%ED%8E%B8%ED%95%9C%20%EC%9D%B4%EC%9C%A0%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0-1788853.pdf)
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205408&subtitleLanguage=ko
+
+**자료:**[실무에서 느껴본 쿠버네티스가 정말 편한 이유](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-1-3%20%EC%8B%A4%EB%AC%B4%EC%97%90%EC%84%9C%20%EB%8A%90%EA%BB%B4%EB%B3%B8%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%EA%B0%80%20%EC%A0%95%EB%A7%90%20%ED%8E%B8%ED%95%9C%20%EC%9D%B4%EC%9C%A0%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0-1788853.pdf)
+
+## 섹션4-19강. 쿠버네티스 표준 생태계로 편해진 IT 인프라 구축
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205421&subtitleLanguage=ko
 
 
 ## 섹션5-20강. 모니터링 설치 - Loki-Stack (💻 실습포함)
- - 실습 자료실 : https://cafe.naver.com/kubeops/30
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205425&subtitleLanguage=ko
+
+**자료:** https://cafe.naver.com/kubeops/30
 
 #### Grafana 접속
  - 접속 URL : http://192.168.56.30:30001
@@ -101,7 +112,9 @@
    - kubectl delete -n default hpa app-1-2-2-1
 
 ## 섹션7-26강. Object 그려보며 이해하기 1/2 (💻 실습포함)
- - 실습 자료실 : https://cafe.naver.com/kubeops/36
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=162844&subtitleLanguage=ko
+
+**자료:**https://cafe.naver.com/kubeops/36
  - Namespace, Deployment, Service, Configmap/Secret, PVC/PV, HPA 추가
  - [Object 그려보며 이해하기 1_2.md](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/Object%20%EA%B7%B8%EB%A0%A4%EB%B3%B4%EB%A9%B0%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0%201_2.md)
  
@@ -172,6 +185,7 @@ Cluster 레벨에서 저장 공간 설정
  - kubectl delete pv api-tester-1231-files
 
 ## 섹션7-27강. Object 그려보며 이해하기 2/2 (💻 실습포함)
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205447&subtitleLanguage=ko
 
 ### Prometheus labels node 내용 설명
 ```yaml
@@ -317,10 +331,10 @@ labels:
 
 
 ## 섹션8-29강. Application 기능을 이해하기 - Pod (probe) 자료
- - [쿠버네티스 첫 오브젝트 잘 끼우기 - application 기능으로 이해하기(1) - Pod(probe)](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-2%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EC%B2%AB%20%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%20%EC%9E%98%20%EB%81%BC%EC%9A%B0%EA%B8%B0%20-%20application%20%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0(1)%20-%20Pod(probe).pdf)
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205452&subtitleLanguage=ko
+**자료:**https://cafe.naver.com/kubeops/39
 
-
-## 섹션8-29강. Probe 자료
+**자료:**[Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석_Application 동작 중심의 프로브 이해) _ 네이버 카페.pdf](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/Application%20%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-Probe(Application%20%EB%A1%9C%EA%B7%B8%EB%A5%BC%20%ED%86%B5%ED%95%9C%20%ED%94%84%EB%A1%9C%EB%B8%8C%20%EB%8F%99%EC%9E%91%20%EB%B6%84%EC%84%9D_Application%20%EB%8F%99%EC%9E%91%20%EC%A4%91%EC%8B%AC%EC%9D%98%20%ED%94%84%EB%A1%9C%EB%B8%8C%20%EC%9D%B4%ED%95%B4)%20_%20%EB%84%A4%EC%9D%B4%EB%B2%84%20%EC%B9%B4%ED%8E%98.pdf)
 
  - [쿠버네티스 첫 오브젝트 잘 끼우기 - application 기능으로 이해하기(1) - Pod(probe)](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-2%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EC%B2%AB%20%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%20%EC%9E%98%20%EB%81%BC%EC%9A%B0%EA%B8%B0%20-%20application%20%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0(1)%20-%20Pod(probe).pdf)
 
@@ -332,15 +346,20 @@ labels:
    - App가 살아있는지 확인을 하고 설정한 회수 만큼 실패하면 App을 재기동
    
 ## 섹션8-31강. Application 로그를 통한 프로브 동작 분석 (💻 실습포함)
- - https://cafe.naver.com/kubeops/39
- - [Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석/Application 동작 중심의 프로브 이해)](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/Application%20%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-Probe(Application%20%EB%A1%9C%EA%B7%B8%EB%A5%BC%20%ED%86%B5%ED%95%9C%20%ED%94%84%EB%A1%9C%EB%B8%8C%20%EB%8F%99%EC%9E%91%20%EB%B6%84%EC%84%9D_Application%20%EB%8F%99%EC%9E%91%20%EC%A4%91%EC%8B%AC%EC%9D%98%20%ED%94%84%EB%A1%9C%EB%B8%8C%20%EC%9D%B4%ED%95%B4)%20_%20%EB%84%A4%EC%9D%B4%EB%B2%84%20%EC%B9%B4%ED%8E%98.pdf)
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205452&subtitleLanguage=ko
+**자료:**https://cafe.naver.com/kubeops/39
+
+**자료:**[Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석_Application 동작 중심의 프로브 이해) _ 네이버 카페.pdf](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/Application%20%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-Probe(Application%20%EB%A1%9C%EA%B7%B8%EB%A5%BC%20%ED%86%B5%ED%95%9C%20%ED%94%84%EB%A1%9C%EB%B8%8C%20%EB%8F%99%EC%9E%91%20%EB%B6%84%EC%84%9D_Application%20%EB%8F%99%EC%9E%91%20%EC%A4%91%EC%8B%AC%EC%9D%98%20%ED%94%84%EB%A1%9C%EB%B8%8C%20%EC%9D%B4%ED%95%B4)%20_%20%EB%84%A4%EC%9D%B4%EB%B2%84%20%EC%B9%B4%ED%8E%98.pdf)
 
 ## 섹션8-32강. Application 동작 중심의 프로브 이해
- - https://cafe.naver.com/kubeops/39
- - [Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석/Application 동작 중심의 프로브 이해)]()
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205449&subtitleLanguage=ko
+
+**자료:**https://cafe.naver.com/kubeops/39
 
 ## 섹션8-33강. Application 동작 중심의 프로브 이해 (💻 실습)
-- [Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석/Application 동작 중심의 프로브 이해)](https://cafe.naver.com/kubeops/39)
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205450&subtitleLanguage=ko
+
+**자료:**https://cafe.naver.com/kubeops/39
 
   - [App 초기화] 중 시스템 연동 작업을 하고, [User 초기화] 중에 초기 데이터 로딩 작업이 있음. 그리고 이 작업이 다 끝나야 [기동완료] 가 되는 App 기동 상황
 
@@ -398,11 +417,19 @@ labels:
 ## 섹션8-37강. Configmap, Secret 기본 개념
 **강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=174651&subtitleLanguage=ko
 
+**자료:**https://cafe.naver.com/kubeops/43
+
 **자료:**[1-2-3_쿠버네티스_첫_오브젝트_잘_끼우기_-_application_기능으로_이해하기(2)_-_Configmap,_Secret_-_인프런2.pdf](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-3_%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4_%EC%B2%AB_%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8_%EC%9E%98_%EB%81%BC%EC%9A%B0%EA%B8%B0_-_application_%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C_%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0(2)_-_Configmap%2C_Secret_-_%EC%9D%B8%ED%94%84%EB%9F%B02.pdf)
 
+## 섹션8-38강. Configmap, Secret 기본 개념
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205460&subtitleLanguage=ko
 
+**자료:**https://cafe.naver.com/kubeops/43
 
+## 섹션8-43강. PV/PVC (local, hostPath)
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=174653&subtitleLanguage=ko
 
+**자료:**https://cafe.naver.com/kubeops/43
 
 
 다양한 인터페이스로 타 시스템 요청/응답 연계
