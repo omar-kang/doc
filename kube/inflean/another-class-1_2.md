@@ -340,8 +340,7 @@ labels:
  - [Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석/Application 동작 중심의 프로브 이해)]()
 
 ## 섹션8-33강. Application 동작 중심의 프로브 이해 (💻 실습)
- - https://cafe.naver.com/kubeops/39
- - [Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석/Application 동작 중심의 프로브 이해)]()
+ - https://cafe.naver.com/kubeops/39[Application 기능으로 이해하기-Probe(Application 로그를 통한 프로브 동작 분석/Application 동작 중심의 프로브 이해)]()
 
 - [App 초기화] 중 시스템 연동 작업을 하고, [User 초기화] 중에 초기 데이터 로딩 작업이 있음. 그리고 이 작업이 다 끝나야 [기동완료] 가 되는 App 기동 상황
 
@@ -377,7 +376,22 @@ labels:
     ﻿// 5번 API - 장애발생 (App 내부 isAppLive를 False로 바꿈)
     curl http://192.168.56.30:31231/server-error
     ```
+- 응용과제
+  - 응용1 : startupProbe가 실패 되도록 설정해서 Pod가 무한 재기동 상태가 되도록 설정해 보세요. (여러분들이 가장 많이 겪게될 Pod 에러입니다)
 
+​- 응용2 : 일시적 장애 상황(App 내부 부하 증가)가 시작 된 후, 30초 뒤에 트래픽이 중단되고, 3분 뒤에는 App이 재기동 되도록 설정해 보세요.(아래 API를 날리면 readinessProbe와 livenessProbe가 동시에 실패하게 됩니다)
+    ```
+    // 부하 증가 - (App 내부 isAppReady와 isAppLive를 False로 바꿈)
+    curl http://192.168.56.30:31231/server-load-on
+
+    // 외부 API 실패
+    curl http://192.168.56.30:31231/hello
+
+    ﻿// 부하 감소 API - (App 내부 isAppReady와 isAppLive를 True로 바꿈)
+    curl http://192.168.56.30:31231/server-load-off
+    ​```
+
+- 응용3 : Secret 파일(/usr/src/myapp/datasource/postgresql-info.yaml)이 존재하는지 체크하는 readinessProbe를 만들어 보세요.(꼭 API를 날리는 것만이 readinessProbe 활용의 전부는 아닙니다)
 
 
 
