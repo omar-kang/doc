@@ -426,10 +426,115 @@ labels:
 
 **자료:**https://cafe.naver.com/kubeops/43
 
-## 섹션8-43강. PV/PVC (local, hostPath)
+## 섹션9-43강. PV/PVC (local, hostPath)
 **강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=174653&subtitleLanguage=ko
 
-**자료:**https://cafe.naver.com/kubeops/43
+**자료:**https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-4%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EC%B2%AB%20%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%20%EC%9E%98%20%EB%81%BC%EC%9A%B0%EA%B8%B0%20-%20application%20%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0(3)%20-%20PV_PVC%2C%20Deployment%2C%20Service%2C%20HPA%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0-1788853.pdf
+
+**자료:**https://cafe.naver.com/kubeops/49
+
+## 섹션9-44강. Deployment (Recreate, RollingUpdate-maxUnavailable, maxSurge)
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205470&subtitleLanguage=ko
+
+**자료:**https://cafe.naver.com/kubeops/49
+
+- Recreate(Replicas가 2로 설정 된 경우)
+  - 기존 파드 모두 삭제.
+  - 새 파드 두개 생성
+ 
+- RollingUpdate(Replicas가 2로 설정 된 경우)
+  - 순서
+    - Pod1 삭제 Pod1-1 생성
+    - Pod2 삭제 Pod1-2 생성
+  - 업데이트 중 자원 사용률이 150% 증가
+  - 신규 서비스(Pod1-1), 구 서비스(Pod2) 가 동시에 서비스 됨
+    - RollingUpdate 옵션 -> maxUnavailable : 25% ==> 업데이트 동안 최대 몇 개의 pod를 서비스 상태로 유지할 지...(총 pod 중 25%를 서비스 못하게 함)
+      - 0% 인 경우 업데이트 동안 모든 pod가 서비스 됨
+    - RollingUpdate 옵션 -> maxSurge : 25% ==> 새 pod를 최대 몇 개까지 동시에 생성할 지..
+      - 100% 인 경우 업데이트 동안 replica 수 만큼 한번에 생성
+    - maxUnavailable : 0%, maxSurge : 100% 인 경우 아래 Blue/Green 에 가까운 동작.
+      - 순서
+        - Pod1-1 생성
+        - Pod1 삭제
+        - Pod2-1 생성
+        - Pod2 삭제
+    - maxUnavailable : 100%, maxSurge : 100% 인 경우 Recreate와 동일하게 동작.
+ 
+- Blue/Green(Replicas가 2로 설정 된 경우)
+  - 순서
+    - Pod1-1 생성
+    - Pod1-2 생성
+    - Pod1, Pod2 삭제
+  - 업데이트 중 자원 사용률이 200% 증가
+  - 동시에 서비스 안됨
+  - 별도 배포 솔루션에서 제공
+  
+
+## 섹션9-45강. Service - Discovery, Publising, Registry, Load Balancing,
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205471&subtitleLanguage=ko
+
+**자료:**https://cafe.naver.com/kubeops/49
+
+- Service.spec.selector 
+  - Pod의 labels로 서로 연결됨
+- Service.spec.type : 연결 타입 설정
+  - ClusterIP : 내부에서만 연결됨(내부용 서비스)
+  - NodePort : MasterNode에 port가 생성되면서 외부에서 접근이 가능하게 함.
+- Service.spec.ports : 포트 정보 설정
+  - targetPort : 8080 ==> 외부 또는 내부 포트를 Container Image 패키징 시 설정한 port와 연결
+  - port : 80 ==> 내부 포트(동일한 namespace의 다른 pod, 다른 namespace의 pod에서 호출 시 사용)
+    - 다른 namespace의 pod에서 호출 : http://<Service.metadata.name>.<namespace.metadata.name>:port(80)
+    - port(80) -> targetPort(8080) -> pod(Container Image 생성시 port) 로 연결
+  - nodePort : 18080 ==> 외부 포트(MasterNode에 자동 설정)
+    - nodePort -> targetPort(8080) -> pod(Container Image 생성시 port) 로 연결
+- Service.metadata.name 이 DNS로 등록되므로 http://<Service.metadata.name>:<Service.spec.ports.port>로 서비스 호출 가능
+  - 서비스 디스커버리 기능
+  - Service와 Pod는 생성될때 개별 IP가 부여됨
+    - Pod삭제시 재생성시 신규 IP 부여됨.
+  - IP가 바뀔 가능성이 있으므로 서비스 디스커버리 기능이 중요
+- Deployment.spec.template.spec.containers.ports 에 port 정보를 설정할 수 있으며 포트 이름(name)을 정의할 수 있음
+  - name : http ==> Service.spec.ports.targetPort에 name 기입이 가능함.
+    - port가 변경되는 경우 Pod 정보만 수정하면 되고 Service에서는 이름으로 찾아갈 수 있음
+  - containerPort : 8080 ==> Container Image 생성시 port 정보
+    - 일반적인 경우 역할을 하지않는 정보성 속성이 지만 위 name 속성이 Service.spec.ports.targetPort에 사용된다면 연결 포트로서 동작.
+- Pod(Deployment)가 Service에 등록되는 구조로 Pod가 삭제/생성시 IP가 변경되더라도 IP를 신경 쓸 필요가 없음
+  - 서비스 레지스트리 기능
+  
+- Traffic 발생시(서비스요청시) Service에서 먼저 받아서 Pod로 분배하는 로드밸런싱 기능이 있음
+
+
+## 섹션9-46강. HPA - Auto Scaling(아주 중요한 강의임)
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205472&subtitleLanguage=ko
+
+**자료:**https://cafe.naver.com/kubeops/49
+
+- HPA.metadata.spec.scaleTargetRef : Deployment 를 지정하는 내용
+- HPA.metadata.spec.minReplicas: 2, maxReplicas: 4 :  범위내에서 Deployment의 replicas 를 지정(기본 pods수)
+- HPA.metadata.spec.metrics.resource.target(cpu).averageUtilization : 60
+  - Deployment의 resources 에서 지정한 requests(cpu)에서 60%를 넘기면 ScaleOut, pod 평균으로 계산
+- HPA.metadata.spec.metrics.behavior.scaleUp.stabilizationWindowSeconds: 120
+  - ScaleOut 조건이 약 2분 정도 지속되면 ScaleOut 수행
+  - scaleDown 옵션도 확인 필요
+
+## 섹션11-50강.  각 리소스별 동작 (Probe, Service, Secret, HPA)
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205488&subtitleLanguage=ko
+
+**자료:**[]()
+
+- HPA.metadata.spec.scaleTargetRef : Deployment 를 지정하는 내용
+- HPA.metadata.spec.minReplicas: 2, maxReplicas: 4 :  범위내에서 Deployment의 replicas 를 지정(기본 pods수)
+- HPA.metadata.spec.metrics.resource.target(cpu).averageUtilization : 60
+  - Deployment의 resources 에서 지정한 requests(cpu)에서 60%를 넘기면 ScaleOut, pod 평균으로 계산
+- HPA.metadata.spec.metrics.behavior.scaleUp.stabilizationWindowSeconds: 120
+  - ScaleOut 조건이 약 2분 정도 지속되면 ScaleOut 수행
+  - scaleDown 옵션도 확인 필요
+
+
+
+
+
+
+
 
 
 다양한 인터페이스로 타 시스템 요청/응답 연계
