@@ -625,9 +625,18 @@ labels:
   - calico 버전 업데이트 되면서 nodePort 정보는 kubectl get svc -A를 통해서만 확인 가능
 
 
+## 섹션13-52강. 인트로(DevOps 전체구성도)
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205344&subtitleLanguage=ko
 
+**자료:**[2-1-1 데브옵스 한방정리 - 인프런-1788853.pdf](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/2-1-1%20%EB%8D%B0%EB%B8%8C%EC%98%B5%EC%8A%A4%20%ED%95%9C%EB%B0%A9%EC%A0%95%EB%A6%AC%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0-1788853.pdf)
 
-
+|:개발 환경:|:CI/CD 환경:|:인프라 환경:|
+|1. 개발도구 github 커밋|2. jenkins 소스 다운로드||
+||3. Gradle Build(maven download)||
+||4. Docker 이미지 생성||
+||5. Docker 저장소 저장||
+||6. Jenkins 배포(kubectl)||
+|||7. containerd 실행(pod생성)|
 
 
 
