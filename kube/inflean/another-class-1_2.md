@@ -562,7 +562,7 @@ labels:
 
 **자료:**https://cafe.naver.com/kubeops/61
 
-- 주요 컴포넌트 구성, 로그, 동작로그 확인
+- 주요 컴포넌트 구성, pod/container 로그, 동작(기동)로그 확인
     ```
     ▶ Resource 확인
 
