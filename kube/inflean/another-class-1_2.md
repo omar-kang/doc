@@ -510,24 +510,122 @@ labels:
 
 - HPA.metadata.spec.scaleTargetRef : Deployment 를 지정하는 내용
 - HPA.metadata.spec.minReplicas: 2, maxReplicas: 4 :  범위내에서 Deployment의 replicas 를 지정(기본 pods수)
-- HPA.metadata.spec.metrics.resource.target(cpu).averageUtilization : 60
+- HPA.metadata.spec.metrics.`resource`.target(cpu).averageUtilization : 60
   - Deployment의 resources 에서 지정한 requests(cpu)에서 60%를 넘기면 ScaleOut, pod 평균으로 계산
-- HPA.metadata.spec.metrics.behavior.scaleUp.stabilizationWindowSeconds: 120
+- HPA.metadata.spec.metrics.`behavior`.scaleUp.stabilizationWindowSeconds: 120
   - ScaleOut 조건이 약 2분 정도 지속되면 ScaleOut 수행
   - scaleDown 옵션도 확인 필요
 
-## 섹션11-50강.  각 리소스별 동작 (Probe, Service, Secret, HPA)
+## 섹션11-50강. 각 리소스별 동작 (Probe, Service, Secret, HPA)
 **강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205488&subtitleLanguage=ko
 
-**자료:**[]()
+**자료:**[1-2-5 쿠버네티스 첫 오브젝트 잘 끼우기 - component 동작으로 이해하기 - 인프런-1788853.pdf](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/1-2-4%20%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%20%EC%B2%AB%20%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8%20%EC%9E%98%20%EB%81%BC%EC%9A%B0%EA%B8%B0%20-%20application%20%EA%B8%B0%EB%8A%A5%EC%9C%BC%EB%A1%9C%20%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0(3)%20-%20PV_PVC%2C%20Deployment%2C%20Service%2C%20HPA%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0-1788853.pdf)
 
-- HPA.metadata.spec.scaleTargetRef : Deployment 를 지정하는 내용
-- HPA.metadata.spec.minReplicas: 2, maxReplicas: 4 :  범위내에서 Deployment의 replicas 를 지정(기본 pods수)
-- HPA.metadata.spec.metrics.resource.target(cpu).averageUtilization : 60
-  - Deployment의 resources 에서 지정한 requests(cpu)에서 60%를 넘기면 ScaleOut, pod 평균으로 계산
-- HPA.metadata.spec.metrics.behavior.scaleUp.stabilizationWindowSeconds: 120
-  - ScaleOut 조건이 약 2분 정도 지속되면 ScaleOut 수행
-  - scaleDown 옵션도 확인 필요
+- Pod가 생성되는 과정
+  1. kubectl로 Deployment 생성 API 호출
+  2. kube-apiserver pod(Control Plane) 가 etcd pod를 통해 etcd에 deploement 정보 저장
+    - Deployment 가 조회 가능상태, Dashboard에 표시 됨
+  3. kube-controller-manager pod가 kube-apiserver pod를 통해 etcd를 모니터링 하다가 Deployment가 조회되면 ReplicaSet을 생성하라는 명령을 kube-apiserver pod로 보냄
+  4. kube-apiserver pod(Control Plane) 가 etcd pod를 통해 etcd에 ReplicaSet 정보 저장
+    - ReplicaSet 가 조회 가능상태, Dashboard에 표시 됨
+  5. kube-controller-manager pod가 kube-apiserver pod를 통해 etcd를 모니터링 하다가 ReplicaSet이 조회되면 pod를 생성하라는 명령을 kube-apiserver pod로 보냄
+  6. kube-apiserver pod(Control Plane) 가 etcd pod를 통해 etcd에 pod 정보 저장
+  7. cube-scheduler pod가 kube-apiserver pod를 통해 etcd의 pod 정보를 모니터링 하다가 pod 정보(대상 Node, nodeSelector, resources 등)를 정보를 저장
+  8. 대상 Node의 kubelet 이 kube-apiserver pod를 통해 자신의 노드 정보가 있는 pod 정보를 확인하면 container runtime를 통해 container를 생성요청
+  9. containerd가  container 생성
+
+- Probe 동작
+
+  10. Container가 생성되면서 Probe정보를 확인하고 kubelet이 probe API를 주기적으로 호출
+
+- Service 동작
+
+  11. kubelet 이 nodePort(외부접속포트)를 확인하고 kube-proxy pod에게 네트워크를 생성해달라고 요청
+  12. kube-proxy pod는 iptables 에 매핑룰 설정
+    - 18080 포트로 요청에 대해 특정 Service 이름으로 매핑
+  13. 외부에서 18080으로 요청이 오면 iptables를 참고해서 calico(CNI)가 실제 container로 Traffic을 전달함
+  
+- Secret 동작 : 메모리에 로딩됨
+  - 변경내용을 주기적으로 업데이트 (즉시 반영 안됨)
+
+- HPA 동작
+ - 기본적으로 container 의 자원사용량은 containerd 가 알고 있음
+ - kubelet 이 cpu, memory를 10초에 한 번씩 조회하고 있음
+ - HPA의 metrics 설정을 한다고 해서 pod에 부하 발생시 동작하지는 않음
+   1. metrics-server Addon Pod를 설치
+     - metrics-server 60초 단위로 사용량을 수집/저장
+   2. kube-controller-manager pod가 HPA의 metrics 설정 정보와 metrics-server 수집된 정보를 15초 마다 비교해서 Scalling을 발생 시킴
+ -  Scalling을 발생하기 까지 최대 85초 소요 됨
+
+## 섹션11-51강. 주요 컴포넌트 로그, 설정파일, 상태 확인 명령어 모음(위 내용)
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=205493&subtitleLanguage=ko
+
+**자료:**https://cafe.naver.com/kubeops/61
+
+- 주요 컴포넌트 구성, 로그, 동작로그 확인
+    ```
+    ▶ Resource 확인
+
+    kubectl api-resources
+    ​
+
+    ▶ Cluster 주요 컴포넌트 로그 확인
+
+    // 주요 컴포넌트 로그 보기 (kube-system)
+    kubectl get pods -n kube-system
+    kubectl logs -n kube-system etcd-k8s-master
+    kubectl logs -n kube-system kube-scheduler-k8s-master
+    kubectl logs -n kube-system kube-apiserver-k8s-master
+    ...
+    ​
+
+    ▶ Master Node 파일 위치
+
+    // 쿠버네티스 인증서 위치
+    cd /etc/kubernetes
+    ls /root/.kube/config
+
+    // Control Plane Component Pod 생성 yaml 파일 위치
+    ls /etc/kubernetes/manifests
+
+    // 전체 Pod 로그
+    /var/log/pods/<namespace_<pod-name>_<uid>/<number>.log
+    /var/log/containers/<pod-name>_<namespace>_<container-name>_<container-id>.log
+    ​
+
+    ▶ 트러블 슈팅
+
+    // kubelet 상태 확인
+    1) systemctl status kubelet       // systemctl (restart or start) kubelet
+    2) journalctl -u kubelet | tail -10
+
+    // 상태 확인 -> 상세 로그 확인 -> 10분 구글링 -> VM 재기동 -> Cluster 재설치 ->  답을 찾을 때 까지 구글링
+
+    // containerd 상태 확인
+    1) systemctl status containerd
+    2) journalctl -u containerd | tail -10
+
+    // 노드 상태 확인
+    1) kubectl get nodes -o wide
+    2) kubectl describe node k8s-master
+
+    // Pod 상태 확인
+    1) kubectl get pods -A -o wide
+    // Event 확인 (기본값: 1h)
+    2-1) kubectl get events -A
+    2-2) kubectl events -n anotherclass-123 --types=Warning  (or Normal)
+    // Log 확인
+    3-1) kubectl logs -n anotherclass-123 <pod-name> --tail 10    // 10줄 만 조회하기
+    3-2) kubectl logs -n anotherclass-123 <pod-name> -f           // 실시간으로 조회 걸어 놓기
+    3-3) kubectl logs -n anotherclass-123 <pod-name> --since=1m   // 1분 이내에 생성된 로그만 보기
+    ```
+
+- iptables 확인
+  - iptables -t nat -L KUBE-NODEPORTS -n  | column -t
+  - calico 버전 업데이트 되면서 nodePort 정보는 kubectl get svc -A를 통해서만 확인 가능
+
+
+
 
 
 
