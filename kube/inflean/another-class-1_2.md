@@ -631,12 +631,12 @@ labels:
 **자료:**[2-1-1 데브옵스 한방정리 - 인프런-1788853.pdf](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/2-1-1%20%EB%8D%B0%EB%B8%8C%EC%98%B5%EC%8A%A4%20%ED%95%9C%EB%B0%A9%EC%A0%95%EB%A6%AC%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0-1788853.pdf)
 
 |:개발 환경:|:CI/CD 환경:|:인프라 환경:|
-|1. 개발도구 github 커밋|2. jenkins 소스 다운로드||
-||3. Gradle Build(maven download)||
-||4. Docker 이미지 생성||
-||5. Docker 저장소 저장||
-||6. Jenkins 배포(kubectl)||
-|||7. containerd 실행(pod생성)|
+|:-----:|:----:|:-----:|
+| 1. 개발도구 github 커밋|2. jenkins 소스 다운로드|7. containerd 실행(pod생성)|
+| |3. Gradle Build(maven download)| |
+| |4. Docker 이미지 생성| |
+| |5. Docker 저장소 저장| |
+| |6. Jenkins 배포(kubectl)| |
 
 
 
