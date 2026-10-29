@@ -639,3 +639,9 @@ labels:
 ||6. Jenkins 배포(kubectl)||
 
 
+## 섹션14-59강. CI/CD 서버환경을 구성하기 [구축 1~8단계] (💻 실습포함)
+**강의:** https://www.inflearn.com/courses/lecture?courseId=330869&tab=curriculum&type=LECTURE&unitId=191169&subtitleLanguage=ko
+
+**자료:**[2-1-2 손쉽게 데브옵스 환경을 구축하는 방법 - 인프런-1788853](https://github.com/omar-kang/doc/blob/main/kube/inflean/attach/2-1-2%20%EC%86%90%EC%89%BD%EA%B2%8C%20%EB%8D%B0%EB%B8%8C%EC%98%B5%EC%8A%A4%20%ED%99%98%EA%B2%BD%EC%9D%84%20%EA%B5%AC%EC%B6%95%ED%95%98%EB%8A%94%20%EB%B0%A9%EB%B2%95%20-%20%EC%9D%B8%ED%94%84%EB%9F%B0-1788853.pdf
+
+**자료:**https://cafe.naver.com/kubeops/84
